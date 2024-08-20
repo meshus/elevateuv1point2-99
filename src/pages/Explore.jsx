@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
-import { Search, Trending, Users, Image as ImageIcon } from 'lucide-react';
+import { Search, TrendingUp, Users, Image as ImageIcon } from 'lucide-react';
 import Header from '../components/Header';
 import BottomNavigation from '../components/BottomNavigation';
 
@@ -74,7 +74,7 @@ const Explore = () => {
             variant={activeTab === 'trending' ? 'default' : 'outline'}
             onClick={() => setActiveTab('trending')}
           >
-            <Trending className="h-5 w-5 mr-2" />
+            <TrendingUp className="h-5 w-5 mr-2" />
             Trending
           </Button>
           <Button

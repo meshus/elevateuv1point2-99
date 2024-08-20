@@ -5,6 +5,7 @@ import { Textarea } from '../components/ui/textarea';
 import { Image, MapPin, Tag, X } from 'lucide-react';
 import Header from '../components/Header';
 import BottomNavigation from '../components/BottomNavigation';
+import { useNavigate } from 'react-router-dom';
 
 const NewPost = () => {
   const [caption, setCaption] = useState('');
@@ -12,6 +13,7 @@ const NewPost = () => {
   const [location, setLocation] = useState('');
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState('');
+  const navigate = useNavigate();
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -36,6 +38,8 @@ const NewPost = () => {
   const handleSubmit = () => {
     // TODO: Implement post submission logic
     console.log('Submitting post:', { caption, image, location, tags });
+    // Navigate back to the home page after posting
+    navigate('/');
   };
 
   return (

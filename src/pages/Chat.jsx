@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Avatar } from '../components/ui/avatar';
 import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
-import { Send, Mic, Image, Smile, Search } from 'lucide-react';
+import { Send, Mic, Image as ImageIcon, Smile, Search, Plus } from 'lucide-react';
 import Header from '../components/Header';
 import BottomNavigation from '../components/BottomNavigation';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const ChatList = ({ chats, onSelectChat }) => (
   <div className="divide-y">
@@ -39,6 +39,7 @@ const Chat = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const { username } = useParams();
 
   const chats = [
     { id: 1, name: 'John Doe', avatar: 'https://example.com/avatar1.jpg', lastMessage: 'Hey, how are you?', time: '10:30 AM' },
@@ -64,6 +65,15 @@ const Chat = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (username) {
+      const chat = chats.find(c => c.name.toLowerCase().replace(' ', '') === username.toLowerCase());
+      if (chat) {
+        handleSelectChat(chat);
+      }
+    }
+  }, [username]);
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Header title={selectedChat ? selectedChat.name : "Messages"} showBackButton={true} />
@@ -74,7 +84,10 @@ const Chat = () => {
               <Input placeholder="Search messages" className="pl-10 pr-4 py-2" />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
-            <Button className="w-full mb-4">New Message</Button>
+            <Button className="w-full mb-4">
+              <Plus className="h-5 w-5 mr-2" />
+              New Message
+            </Button>
           </div>
           <ChatList chats={chats} onSelectChat={handleSelectChat} />
         </div>
@@ -89,7 +102,7 @@ const Chat = () => {
         <div className="bg-white p-4 border-t fixed bottom-0 left-0 right-0">
           <div className="flex items-center">
             <Button variant="ghost" size="icon">
-              <Image className="h-6 w-6" />
+              <ImageIcon className="h-6 w-6" />
             </Button>
             <Input
               className="flex-grow mx-2"

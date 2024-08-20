@@ -5,44 +5,48 @@ import { Settings, Edit3, MoreVertical } from 'lucide-react';
 import Header from '../components/Header';
 import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage }) => (
-  <div className="bg-white rounded-lg shadow mb-4 overflow-hidden">
-    <div className="h-32 bg-cover bg-center" style={{ backgroundImage: `url(${bannerImage})` }}></div>
-    <div className="p-4 relative">
-      <Avatar className="h-24 w-24 absolute -top-12 left-4 border-4 border-white" />
-      <div className="ml-28">
-        <h2 className="text-xl font-bold">{name}</h2>
-        <p className="text-gray-600">@{username}</p>
-      </div>
-      <p className="mt-2 mb-4">{bio}</p>
-      <div className="flex justify-between mb-4">
-        <span><strong>{following}</strong> Following</span>
-        <span><strong>{followers}</strong> Followers</span>
-      </div>
-      {isOwnProfile ? (
-        <div className="flex space-x-2">
-          <Button className="flex-grow" variant="outline" as={Link} to="/edit-profile">
-            <Edit3 className="h-4 w-4 mr-2" />
-            Edit Profile
-          </Button>
-          <Button variant="outline" className="aspect-square p-2" as={Link} to="/settings">
-            <Settings className="h-5 w-5" />
-          </Button>
+const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="bg-white rounded-lg shadow mb-4 overflow-hidden">
+      <div className="h-32 bg-cover bg-center" style={{ backgroundImage: `url(${bannerImage})` }}></div>
+      <div className="p-4 relative">
+        <Avatar className="h-24 w-24 absolute -top-12 left-4 border-4 border-white" />
+        <div className="ml-28">
+          <h2 className="text-xl font-bold">{name}</h2>
+          <p className="text-gray-600">@{username}</p>
         </div>
-      ) : (
-        <div className="flex space-x-2">
-          <Button className="flex-grow">Follow</Button>
-          <Button variant="outline">Message</Button>
-          <Button variant="outline" className="aspect-square p-2">
-            <MoreVertical className="h-5 w-5" />
-          </Button>
+        <p className="mt-2 mb-4">{bio}</p>
+        <div className="flex justify-between mb-4">
+          <span><strong>{following}</strong> Following</span>
+          <span><strong>{followers}</strong> Followers</span>
         </div>
-      )}
+        {isOwnProfile ? (
+          <div className="flex space-x-2">
+            <Button className="flex-grow" variant="outline" onClick={() => navigate('/edit-profile')}>
+              <Edit3 className="h-4 w-4 mr-2" />
+              Edit Profile
+            </Button>
+            <Button variant="outline" className="aspect-square p-2" onClick={() => navigate('/settings')}>
+              <Settings className="h-5 w-5" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex space-x-2">
+            <Button className="flex-grow">Follow</Button>
+            <Button variant="outline">Message</Button>
+            <Button variant="outline" className="aspect-square p-2">
+              <MoreVertical className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Profile = () => {
   const { username } = useParams();
@@ -54,7 +58,7 @@ const Profile = () => {
     bio: 'Designing Products that Users Love',
     following: 143,
     followers: 149,
-    bannerImage: 'https://example.com/banner.jpg',
+    bannerImage: 'https://source.unsplash.com/random/1200x400?landscape',
   };
 
   const images = [
