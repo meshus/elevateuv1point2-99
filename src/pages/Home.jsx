@@ -4,7 +4,6 @@ import Post from '../components/Post';
 import BottomNavigation from '../components/BottomNavigation';
 import { Bell } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '../components/ui/button';
 
 const Home = () => {
   const [posts, setPosts] = useState([

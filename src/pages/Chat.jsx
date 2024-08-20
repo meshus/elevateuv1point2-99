@@ -6,6 +6,7 @@ import { Send, Mic, Image as ImageIcon, Smile, Search, Plus } from 'lucide-react
 import Header from '../components/Header';
 import BottomNavigation from '../components/BottomNavigation';
 import { Link, useParams } from 'react-router-dom';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 
 const ChatList = ({ chats, onSelectChat }) => (
   <div className="divide-y">
@@ -34,6 +35,53 @@ const ChatMessage = ({ content, isSent, timestamp }) => (
     </div>
   </div>
 );
+
+const NewMessageDialog = ({ onSelectUser }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    // Here you would typically fetch users from your backend
+    // For now, we'll just simulate some results
+    setSearchResults([
+      { id: 1, name: 'John Doe', username: 'johndoe' },
+      { id: 2, name: 'Jane Smith', username: 'janesmith' },
+      { id: 3, name: 'Alice Johnson', username: 'alicej' },
+    ].filter(user => 
+      user.name.toLowerCase().includes(term.toLowerCase()) || 
+      user.username.toLowerCase().includes(term.toLowerCase())
+    ));
+  };
+
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>New Message</DialogTitle>
+      </DialogHeader>
+      <Input
+        placeholder="Search for a user..."
+        value={searchTerm}
+        onChange={(e) => handleSearch(e.target.value)}
+      />
+      <div className="mt-4">
+        {searchResults.map(user => (
+          <div
+            key={user.id}
+            className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+            onClick={() => onSelectUser(user)}
+          >
+            <Avatar className="h-10 w-10 mr-2" />
+            <div>
+              <p className="font-semibold">{user.name}</p>
+              <p className="text-sm text-gray-500">@{user.username}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </DialogContent>
+  );
+};
 
 const Chat = () => {
   const [selectedChat, setSelectedChat] = useState(null);
@@ -65,6 +113,12 @@ const Chat = () => {
     }
   };
 
+  const handleSelectUser = (user) => {
+    // Here you would typically create a new chat or navigate to an existing one
+    console.log('Selected user:', user);
+    setSelectedChat({ id: user.id, name: user.name, avatar: '' });
+  };
+
   React.useEffect(() => {
     if (username) {
       const chat = chats.find(c => c.name.toLowerCase().replace(' ', '') === username.toLowerCase());
@@ -84,10 +138,15 @@ const Chat = () => {
               <Input placeholder="Search messages" className="pl-10 pr-4 py-2" />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
-            <Button className="w-full mb-4">
-              <Plus className="h-5 w-5 mr-2" />
-              New Message
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full mb-4">
+                  <Plus className="h-5 w-5 mr-2" />
+                  New Message
+                </Button>
+              </DialogTrigger>
+              <NewMessageDialog onSelectUser={handleSelectUser} />
+            </Dialog>
           </div>
           <ChatList chats={chats} onSelectChat={handleSelectChat} />
         </div>

@@ -9,6 +9,7 @@ import Chat from './pages/Chat.jsx';
 import Explore from './pages/Explore.jsx';
 import NewPost from './pages/NewPost.jsx';
 import EditProfile from './pages/EditProfile.jsx';
+import UserProfile from './pages/UserProfile.jsx';
 
 export const navItems = [
   {
@@ -66,5 +67,10 @@ export const navItems = [
     title: "Edit Profile",
     to: "/edit-profile",
     page: <EditProfile />,
+  },
+  {
+    title: "User Profile",
+    to: "/profile/:username",
+    page: <UserProfile />,
   },
 ];

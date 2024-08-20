@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 
 const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: initialComments }) => {
   const [liked, setLiked] = useState(false);
@@ -69,28 +70,42 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
           <Heart className="h-5 w-5 mr-1" fill={liked ? 'currentColor' : 'none'} />
           <span>{likeCount}</span>
         </motion.button>
-        <motion.button whileTap={{ scale: 0.9 }} onClick={handleCommentToggle} className="flex items-center">
-          <MessageCircle className="h-5 w-5 mr-1" />
-          <span>{commentCount}</span>
-        </motion.button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <motion.button whileTap={{ scale: 0.9 }} className="flex items-center">
+              <MessageCircle className="h-5 w-5 mr-1" />
+              <span>{commentCount}</span>
+            </motion.button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Comments</DialogTitle>
+            </DialogHeader>
+            <div className="max-h-[60vh] overflow-y-auto">
+              {/* Here you would map through and display existing comments */}
+              <div className="space-y-4">
+                <p>Comment 1</p>
+                <p>Comment 2</p>
+                <p>Comment 3</p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment..."
+                className="w-full p-2 border rounded-md"
+              />
+              <Button onClick={handleAddComment} className="mt-2">Post Comment</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
         <motion.button whileTap={{ scale: 0.9 }} onClick={handleShare} className="flex items-center">
           <Share2 className="h-5 w-5 mr-1" />
         </motion.button>
       </div>
       <p className="text-xs text-gray-500 mt-2">{timestamp}</p>
-      {showComments && (
-        <div className="mt-4">
-          <input
-            type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
-            className="w-full p-2 border rounded-md"
-          />
-          <Button onClick={handleAddComment} className="mt-2">Post Comment</Button>
-          {/* Here you would map through and display existing comments */}
-        </div>
-      )}
     </div>
   );
 };
