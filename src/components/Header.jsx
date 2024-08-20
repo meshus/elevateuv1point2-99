@@ -1,13 +1,16 @@
 import React from 'react';
-import { ArrowLeft, Camera } from 'lucide-react';
+import { ArrowLeft, Camera, Bell } from 'lucide-react';
 import { Avatar } from './ui/avatar';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = ({ title, showBackButton = false, showCamera = false }) => {
+  const navigate = useNavigate();
+
   return (
-    <header className="flex items-center justify-between p-4 bg-white">
+    <header className="flex items-center justify-between p-4 bg-white sticky top-0 z-10">
       <div className="flex items-center">
         {showBackButton && (
-          <button className="mr-4">
+          <button className="mr-4" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-6 w-6 text-gray-600" />
           </button>
         )}
@@ -19,7 +22,12 @@ const Header = ({ title, showBackButton = false, showCamera = false }) => {
             <Camera className="h-6 w-6 text-gray-600" />
           </button>
         )}
-        <Avatar className="h-8 w-8" />
+        <Link to="/notifications" className="mr-4">
+          <Bell className="h-6 w-6 text-gray-600" />
+        </Link>
+        <Link to="/profile">
+          <Avatar className="h-8 w-8" />
+        </Link>
       </div>
     </header>
   );

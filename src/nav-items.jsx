@@ -1,9 +1,14 @@
-import { Home, Search, PlusSquare, MessageCircle, User } from 'lucide-react';
+import { Home, Search, PlusSquare, MessageCircle, User, Bell } from 'lucide-react';
 import HomePage from './pages/Home.jsx';
 import Profile from './pages/Profile.jsx';
 import Settings from './pages/Settings.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
+import Notifications from './pages/Notifications.jsx';
+import Chat from './pages/Chat.jsx';
+import Explore from './pages/Explore.jsx';
+import NewPost from './pages/NewPost.jsx';
+import EditProfile from './pages/EditProfile.jsx';
 
 export const navItems = [
   {
@@ -13,28 +18,34 @@ export const navItems = [
     page: <HomePage />,
   },
   {
-    title: "Search",
-    to: "/search",
+    title: "Explore",
+    to: "/explore",
     icon: <Search className="h-6 w-6" />,
-    page: <div>Search Page</div>,
+    page: <Explore />,
   },
   {
     title: "New Post",
     to: "/new-post",
     icon: <PlusSquare className="h-6 w-6" />,
-    page: <div>New Post Page</div>,
+    page: <NewPost />,
   },
   {
-    title: "Messages",
-    to: "/messages",
+    title: "Chat",
+    to: "/chat",
     icon: <MessageCircle className="h-6 w-6" />,
-    page: <div>Messages Page</div>,
+    page: <Chat />,
   },
   {
     title: "Profile",
     to: "/profile",
     icon: <User className="h-6 w-6" />,
     page: <Profile />,
+  },
+  {
+    title: "Notifications",
+    to: "/notifications",
+    icon: <Bell className="h-6 w-6" />,
+    page: <Notifications />,
   },
   {
     title: "Settings",
@@ -50,5 +61,10 @@ export const navItems = [
     title: "Signup",
     to: "/signup",
     page: <Signup />,
+  },
+  {
+    title: "Edit Profile",
+    to: "/edit-profile",
+    page: <EditProfile />,
   },
 ];
