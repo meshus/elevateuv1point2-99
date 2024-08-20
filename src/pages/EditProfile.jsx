@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import { Textarea } from '../components/ui/textarea';
@@ -6,9 +6,11 @@ import { Avatar } from '../components/ui/avatar';
 import { Camera } from 'lucide-react';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../components/ui/use-toast';
 
 const EditProfile = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [profile, setProfile] = useState({
     name: 'ElevateU',
     username: 'elevate.u',
@@ -21,7 +23,13 @@ const EditProfile = () => {
     location: '',
     website: '',
     avatar: 'https://example.com/avatar.jpg',
+    bannerImage: 'https://source.unsplash.com/random/1200x400?landscape',
   });
+
+  useEffect(() => {
+    // Here you would typically fetch the current profile data from your backend
+    // For now, we'll just use the static data
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,8 +38,12 @@ const EditProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Implement profile update logic
+    // Here you would typically send the updated profile to your backend
     console.log('Updated profile:', profile);
+    toast({
+      title: "Profile updated",
+      description: "Your profile has been successfully updated.",
+    });
     navigate('/profile');
   };
 
@@ -44,17 +56,33 @@ const EditProfile = () => {
     }
   };
 
+  const handleBannerChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setProfile((prev) => ({ ...prev, bannerImage: e.target.result }));
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header title="Edit Profile" showBackButton={true} />
       <div className="p-4 max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative w-24 h-24 mx-auto mb-4">
-            <Avatar src={profile.avatar} alt={profile.name} className="w-full h-full" />
-            <label htmlFor="avatar-upload" className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 cursor-pointer">
-              <Camera className="h-5 w-5 text-white" />
+          <div className="relative w-full h-32 mb-16">
+            <img src={profile.bannerImage} alt="Banner" className="w-full h-full object-cover" />
+            <label htmlFor="banner-upload" className="absolute bottom-2 right-2 bg-white rounded-full p-2 cursor-pointer">
+              <Camera className="h-5 w-5 text-gray-600" />
             </label>
-            <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+            <input id="banner-upload" type="file" accept="image/*" className="hidden" onChange={handleBannerChange} />
+            <div className="absolute -bottom-12 left-4">
+              <Avatar src={profile.avatar} alt={profile.name} className="w-24 h-24 border-4 border-white" />
+              <label htmlFor="avatar-upload" className="absolute bottom-0 right-0 bg-white rounded-full p-2 cursor-pointer">
+                <Camera className="h-5 w-5 text-gray-600" />
+              </label>
+              <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+            </div>
           </div>
           <Input name="name" value={profile.name} onChange={handleChange} placeholder="Name" />
           <Input name="username" value={profile.username} onChange={handleChange} placeholder="Username" />

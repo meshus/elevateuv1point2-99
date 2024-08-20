@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import { Switch } from '../components/ui/switch';
 import { Button } from '../components/ui/button';
 import { ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SettingsItem = ({ title, description, action }) => (
   <div className="flex justify-between items-center py-4 border-b">
@@ -16,6 +16,8 @@ const SettingsItem = ({ title, description, action }) => (
 );
 
 const Settings = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header title="Settings" showBackButton={true} />
@@ -25,12 +27,7 @@ const Settings = () => {
           <SettingsItem
             title="Edit Profile"
             description="Change your profile information"
-            action={<ChevronRight className="h-5 w-5 text-gray-400" />}
-          />
-          <SettingsItem
-            title="Change Password"
-            description="Update your password"
-            action={<ChevronRight className="h-5 w-5 text-gray-400" />}
+            action={<ChevronRight className="h-5 w-5 text-gray-400" onClick={() => navigate('/edit-profile')} />}
           />
           <SettingsItem
             title="Privacy"

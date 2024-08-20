@@ -29,6 +29,16 @@ const TrendingTopics = () => (
         </Button>
       ))}
     </div>
+    <div className="mt-4">
+      <h3 className="text-md font-semibold mb-2">Trending Keywords</h3>
+      <ul className="list-disc pl-5">
+        <li>Artificial Intelligence</li>
+        <li>Sustainable Fashion</li>
+        <li>Remote Work</li>
+        <li>Plant-Based Diet</li>
+        <li>Cryptocurrency</li>
+      </ul>
+    </div>
   </div>
 );
 

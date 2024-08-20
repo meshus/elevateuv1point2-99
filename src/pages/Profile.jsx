@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
 import { Settings, Edit3, MoreVertical } from 'lucide-react';
@@ -7,7 +7,7 @@ import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage }) => {
+const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, onEditProfile }) => {
   const navigate = useNavigate();
 
   return (
@@ -26,7 +26,7 @@ const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile
         </div>
         {isOwnProfile ? (
           <div className="flex space-x-2">
-            <Button className="flex-grow" variant="outline" onClick={() => navigate('/edit-profile')}>
+            <Button className="flex-grow" variant="outline" onClick={onEditProfile}>
               <Edit3 className="h-4 w-4 mr-2" />
               Edit Profile
             </Button>
@@ -50,16 +50,16 @@ const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile
 
 const Profile = () => {
   const { username } = useParams();
+  const navigate = useNavigate();
   const isOwnProfile = !username;
-
-  const profileData = {
+  const [profileData, setProfileData] = useState({
     name: 'Elevate U',
     username: 'elevate.u',
     bio: 'Designing Products that Users Love',
     following: 143,
     followers: 149,
     bannerImage: 'https://source.unsplash.com/random/1200x400?landscape',
-  };
+  });
 
   const images = [
     'https://source.unsplash.com/random/300x300?sig=1',
@@ -70,11 +70,20 @@ const Profile = () => {
     'https://source.unsplash.com/random/300x300?sig=6',
   ];
 
+  useEffect(() => {
+    // Here you would typically fetch the profile data from your backend
+    // For now, we'll just use the static data
+  }, [username]);
+
+  const handleEditProfile = () => {
+    navigate('/edit-profile');
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header title={isOwnProfile ? profileData.name : `${profileData.name}'s Profile`} showBackButton={true} />
       <div className="p-4 pb-20 max-w-2xl mx-auto">
-        <ProfileHeader {...profileData} isOwnProfile={isOwnProfile} />
+        <ProfileHeader {...profileData} isOwnProfile={isOwnProfile} onEditProfile={handleEditProfile} />
         <ImageGrid images={images} />
       </div>
       <BottomNavigation />
