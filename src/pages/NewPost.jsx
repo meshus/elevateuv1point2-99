@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import { Textarea } from '../components/ui/textarea';
-import { Image, MapPin, Tag } from 'lucide-react';
+import { Image, MapPin, Tag, X } from 'lucide-react';
 import Header from '../components/Header';
 import BottomNavigation from '../components/BottomNavigation';
 
 const NewPost = () => {
   const [caption, setCaption] = useState('');
   const [image, setImage] = useState(null);
+  const [location, setLocation] = useState('');
+  const [tags, setTags] = useState([]);
+  const [newTag, setNewTag] = useState('');
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -19,15 +22,26 @@ const NewPost = () => {
     }
   };
 
+  const handleAddTag = () => {
+    if (newTag.trim() && !tags.includes(newTag.trim())) {
+      setTags([...tags, newTag.trim()]);
+      setNewTag('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
+
   const handleSubmit = () => {
     // TODO: Implement post submission logic
-    console.log('Submitting post:', { caption, image });
+    console.log('Submitting post:', { caption, image, location, tags });
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Header title="New Post" showBackButton={true} />
-      <div className="p-4 pb-20">
+      <div className="p-4 pb-20 max-w-2xl mx-auto">
         <div className="mb-4">
           <Input
             type="file"
@@ -56,15 +70,37 @@ const NewPost = () => {
           onChange={(e) => setCaption(e.target.value)}
           className="mb-4"
         />
-        <div className="flex justify-between mb-4">
-          <Button variant="outline" className="flex items-center">
-            <MapPin className="h-5 w-5 mr-2" />
-            Add Location
-          </Button>
-          <Button variant="outline" className="flex items-center">
-            <Tag className="h-5 w-5 mr-2" />
-            Tag People
-          </Button>
+        <div className="flex items-center mb-4">
+          <MapPin className="h-5 w-5 mr-2 text-gray-500" />
+          <Input
+            placeholder="Add location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <div className="flex items-center mb-2">
+            <Tag className="h-5 w-5 mr-2 text-gray-500" />
+            <Input
+              placeholder="Add tags"
+              value={newTag}
+              onChange={(e) => setNewTag(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+            />
+            <Button onClick={handleAddTag} className="ml-2">
+              Add
+            </Button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <div key={tag} className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center">
+                {tag}
+                <button onClick={() => handleRemoveTag(tag)} className="ml-2">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
         <Button className="w-full" onClick={handleSubmit}>
           Share

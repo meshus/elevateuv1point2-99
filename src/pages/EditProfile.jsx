@@ -5,11 +5,13 @@ import { Textarea } from '../components/ui/textarea';
 import { Avatar } from '../components/ui/avatar';
 import { Camera } from 'lucide-react';
 import Header from '../components/Header';
+import { useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState({
     name: 'ElevateU',
-    username: '@elevate.u',
+    username: 'elevate.u',
     bio: "I'm a social media enthusiast and love connecting with people.",
     email: 'john@example.com',
     phone: '+1 (555) 555-5555',
@@ -18,6 +20,7 @@ const EditProfile = () => {
     gender: '',
     location: '',
     website: '',
+    avatar: 'https://example.com/avatar.jpg',
   });
 
   const handleChange = (e) => {
@@ -29,19 +32,29 @@ const EditProfile = () => {
     e.preventDefault();
     // TODO: Implement profile update logic
     console.log('Updated profile:', profile);
+    navigate('/profile');
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setProfile((prev) => ({ ...prev, avatar: e.target.result }));
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Header title="Edit Profile" showBackButton={true} />
-      <div className="p-4">
+      <div className="p-4 max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative w-24 h-24 mx-auto mb-4">
-            <Avatar className="w-full h-full" />
+            <Avatar src={profile.avatar} alt={profile.name} className="w-full h-full" />
             <label htmlFor="avatar-upload" className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 cursor-pointer">
               <Camera className="h-5 w-5 text-white" />
             </label>
-            <input id="avatar-upload" type="file" accept="image/*" className="hidden" />
+            <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
           </div>
           <Input name="name" value={profile.name} onChange={handleChange} placeholder="Name" />
           <Input name="username" value={profile.username} onChange={handleChange} placeholder="Username" />

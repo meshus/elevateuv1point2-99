@@ -6,22 +6,28 @@ import BottomNavigation from '../components/BottomNavigation';
 const Home = () => {
   const posts = [
     {
-      user: { name: 'Jane Doe', username: 'janedoe21' },
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc enim, porttitor interdum gravida quis.',
-      image: 'https://example.com/image1.jpg',
-      timestamp: '12:58PM',
+      user: { name: 'Jane Doe', username: 'janedoe21', avatar: 'https://example.com/avatar1.jpg' },
+      content: 'Enjoying a beautiful day at the park! 🌳☀️',
+      image: 'https://example.com/park.jpg',
+      timestamp: '2 hours ago',
     },
     {
-      user: { name: 'Jack Dorsey', username: 'Jacktwt21' },
-      image: 'https://example.com/image2.jpg',
-      timestamp: '4:20PM',
+      user: { name: 'John Smith', username: 'johnsmith42', avatar: 'https://example.com/avatar2.jpg' },
+      content: 'Just finished reading an amazing book. Highly recommend! 📚',
+      timestamp: '4 hours ago',
+    },
+    {
+      user: { name: 'Emily Johnson', username: 'emilyjohnson33', avatar: 'https://example.com/avatar3.jpg' },
+      image: 'https://example.com/food.jpg',
+      content: 'Trying out a new recipe tonight. Wish me luck! 🍳',
+      timestamp: '6 hours ago',
     },
   ];
 
   return (
-    <div className="pb-16">
-      <Header title="ElevateU" showCamera={true} />
-      <div className="p-4">
+    <div className="min-h-screen bg-gray-100">
+      <Header title="ElevateU" />
+      <div className="p-4 pb-20 max-w-2xl mx-auto">
         {posts.map((post, index) => (
           <Post key={index} {...post} />
         ))}

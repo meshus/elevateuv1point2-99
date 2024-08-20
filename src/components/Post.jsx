@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Avatar } from './ui/avatar';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Post = ({ user, content, image, timestamp }) => {
   const [liked, setLiked] = useState(false);
@@ -13,11 +14,13 @@ const Post = ({ user, content, image, timestamp }) => {
   return (
     <div className="bg-white p-4 mb-4 rounded-lg shadow">
       <div className="flex items-center mb-2">
-        <Avatar className="h-10 w-10 mr-2" src={user.avatar} alt={user.name} />
-        <div>
-          <h3 className="font-bold">{user.name}</h3>
-          <p className="text-sm text-gray-500">{timestamp}</p>
-        </div>
+        <Link to={`/profile/${user.username}`} className="flex items-center">
+          <Avatar className="h-10 w-10 mr-2" src={user.avatar} alt={user.name} />
+          <div>
+            <h3 className="font-bold">{user.name}</h3>
+            <p className="text-sm text-gray-500">@{user.username}</p>
+          </div>
+        </Link>
       </div>
       {content && <p className="mb-2">{content}</p>}
       {image && (
@@ -45,6 +48,7 @@ const Post = ({ user, content, image, timestamp }) => {
           Share
         </motion.button>
       </div>
+      <p className="text-xs text-gray-500 mt-2">{timestamp}</p>
     </div>
   );
 };

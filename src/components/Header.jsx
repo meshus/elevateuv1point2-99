@@ -1,10 +1,11 @@
 import React from 'react';
-import { ArrowLeft, Camera, Bell } from 'lucide-react';
+import { ArrowLeft, Bell } from 'lucide-react';
 import { Avatar } from './ui/avatar';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const Header = ({ title, showBackButton = false, showCamera = false }) => {
+const Header = ({ title, showBackButton = false }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <header className="flex items-center justify-between p-4 bg-white sticky top-0 z-10">
@@ -16,19 +17,11 @@ const Header = ({ title, showBackButton = false, showCamera = false }) => {
         )}
         <h1 className="text-2xl font-bold">{title}</h1>
       </div>
-      <div className="flex items-center">
-        {showCamera && (
-          <button className="mr-4">
-            <Camera className="h-6 w-6 text-gray-600" />
-          </button>
-        )}
+      {location.pathname === '/' && (
         <Link to="/notifications" className="mr-4">
           <Bell className="h-6 w-6 text-gray-600" />
         </Link>
-        <Link to="/profile">
-          <Avatar className="h-8 w-8" />
-        </Link>
-      </div>
+      )}
     </header>
   );
 };
