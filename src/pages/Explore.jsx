@@ -4,6 +4,7 @@ import { Button } from '../components/ui/button';
 import { Search, TrendingUp, Users, Image as ImageIcon } from 'lucide-react';
 import Header from '../components/Header';
 import BottomNavigation from '../components/BottomNavigation';
+import { Link } from 'react-router-dom';
 
 const ExploreGrid = () => (
   <div className="grid grid-cols-3 gap-1">
@@ -21,23 +22,15 @@ const ExploreGrid = () => (
 
 const TrendingTopics = () => (
   <div className="mb-6">
-    <h2 className="text-lg font-semibold mb-2">Trending Topics</h2>
-    <div className="flex flex-wrap gap-2">
-      {['#Technology', '#Travel', '#Food', '#Fashion', '#Music'].map((topic) => (
-        <Button key={topic} variant="outline" size="sm">
-          {topic}
-        </Button>
-      ))}
-    </div>
-    <div className="mt-4">
-      <h3 className="text-md font-semibold mb-2">Trending</h3>
-      <div className="space-y-2">
-        {['Artificial Intelligence', 'Sustainable Fashion', 'Remote Work', 'Plant-Based Diet', 'Cryptocurrency'].map((trend, index) => (
-          <Button key={index} variant="ghost" className="w-full justify-start p-2 h-auto">
+    <h2 className="text-lg font-semibold mb-2">Trending</h2>
+    <div className="space-y-2">
+      {['Artificial Intelligence', 'Sustainable Fashion', 'Remote Work', 'Plant-Based Diet', 'Cryptocurrency'].map((trend, index) => (
+        <Link key={index} to={`/search?q=${encodeURIComponent(trend)}`} className="block">
+          <Button variant="ghost" className="w-full justify-start p-2 h-auto">
             {trend}
           </Button>
-        ))}
-      </div>
+        </Link>
+      ))}
     </div>
   </div>
 );

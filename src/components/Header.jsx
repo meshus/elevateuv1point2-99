@@ -1,9 +1,8 @@
 import React from 'react';
 import { ArrowLeft, Bell } from 'lucide-react';
-import { Avatar } from './ui/avatar';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const Header = ({ title, showBackButton = false }) => {
+const Header = ({ title, showBackButton = false, children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,6 +21,7 @@ const Header = ({ title, showBackButton = false }) => {
           <Bell className="h-6 w-6 text-gray-600" />
         </Link>
       )}
+      {children}
     </header>
   );
 };

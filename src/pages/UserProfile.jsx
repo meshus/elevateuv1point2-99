@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
 import { useParams, useNavigate } from 'react-router-dom';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../components/ui/dropdown-menu';
 
 const UserProfile = () => {
   const { username } = useParams();
@@ -52,21 +53,32 @@ const UserProfile = () => {
               <p className="text-gray-600">@{profileData.username}</p>
             </div>
             <p className="mt-2 mb-4">{profileData.bio}</p>
-            <div className="flex justify-between mb-4">
-              <span><strong>{profileData.following}</strong> Following</span>
+            <div className="flex mb-4">
+              <span className="mr-4"><strong>{profileData.following}</strong> Following</span>
               <span><strong>{profileData.followers}</strong> Followers</span>
             </div>
             <div className="flex space-x-2">
-              <Button className="flex-grow" onClick={handleFollowToggle}>
+              <Button 
+                className={`flex-grow ${isFollowing ? 'bg-gray-200 text-black' : 'bg-red-500 text-white'}`} 
+                onClick={handleFollowToggle}
+              >
                 {isFollowing ? 'Unfollow' : 'Follow'}
               </Button>
               <Button variant="outline" onClick={handleMessage}>
                 <MessageCircle className="h-5 w-5 mr-2" />
                 Message
               </Button>
-              <Button variant="outline" className="aspect-square p-2">
-                <MoreHorizontal className="h-5 w-5" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="aspect-square p-2">
+                    <MoreHorizontal className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>Block User</DropdownMenuItem>
+                  <DropdownMenuItem>Mute User</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

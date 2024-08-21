@@ -84,9 +84,15 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
             <div className="max-h-[60vh] overflow-y-auto">
               {/* Here you would map through and display existing comments */}
               <div className="space-y-4">
-                <p>Comment 1</p>
-                <p>Comment 2</p>
-                <p>Comment 3</p>
+                {[1, 2, 3].map((_, index) => (
+                  <div key={index} className="flex items-start space-x-2">
+                    <Avatar className="h-8 w-8" />
+                    <div>
+                      <Link to={`/profile/user${index}`} className="font-semibold hover:underline">User {index}</Link>
+                      <p>This is a sample comment.</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="mt-4">

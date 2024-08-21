@@ -17,11 +17,6 @@ const EditProfile = () => {
     bio: "I'm a social media enthusiast and love connecting with people.",
     email: 'john@example.com',
     phone: '+1 (555) 555-5555',
-    birthday: '',
-    interests: '',
-    gender: '',
-    location: '',
-    website: '',
     avatar: 'https://example.com/avatar.jpg',
     bannerImage: 'https://source.unsplash.com/random/1200x400?landscape',
   });
@@ -82,11 +77,6 @@ const EditProfile = () => {
           <Textarea name="bio" value={profile.bio} onChange={handleChange} placeholder="Bio" />
           <Input name="email" value={profile.email} onChange={handleChange} placeholder="Email" type="email" />
           <Input name="phone" value={profile.phone} onChange={handleChange} placeholder="Phone" type="tel" />
-          <Input name="birthday" value={profile.birthday} onChange={handleChange} placeholder="Birthday" type="date" />
-          <Input name="interests" value={profile.interests} onChange={handleChange} placeholder="Interests" />
-          <Input name="gender" value={profile.gender} onChange={handleChange} placeholder="Gender" />
-          <Input name="location" value={profile.location} onChange={handleChange} placeholder="Location" />
-          <Input name="website" value={profile.website} onChange={handleChange} placeholder="Website" type="url" />
           <Button type="submit" className="w-full">Save Changes</Button>
         </form>
       </div>
