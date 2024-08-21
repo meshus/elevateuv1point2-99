@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Avatar } from './ui/avatar';
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Heart, MessageCircle, Share2, MoreHorizontal } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: initialComments }) => {
   const [liked, setLiked] = useState(false);
@@ -40,23 +41,38 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <Link to={`/profile/${user.username}`} className="flex items-center mb-4">
-        <Avatar className="h-10 w-10 mr-2" src={user.avatar} alt={user.name} />
-        <div>
-          <h3 className="font-bold">{user.name}</h3>
-          <p className="text-sm text-gray-500">@{user.username}</p>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-4">
+          <Link to={`/profile/${user.username}`} className="flex items-center">
+            <Avatar className="h-10 w-10 mr-2" src={user.avatar} alt={user.name} />
+            <div>
+              <h3 className="font-bold text-sm">{user.name}</h3>
+              <p className="text-xs text-gray-500">@{user.username}</p>
+            </div>
+          </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>Report Post</DropdownMenuItem>
+              <DropdownMenuItem>Mute User</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-      </Link>
-      {content && <p className="mb-4">{content}</p>}
+        {content && <p className="mb-4 text-sm">{content}</p>}
+      </div>
       {image && (
         <img
           src={image}
           alt="Post"
-          className="w-full rounded-lg mb-4 object-cover max-h-96"
+          className="w-full object-cover max-h-96"
         />
       )}
-      <div className="flex justify-between text-gray-500">
+      <div className="p-4 flex justify-between items-center text-gray-500 text-sm">
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={handleLike}
@@ -67,7 +83,7 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
         </motion.button>
         <Dialog>
           <DialogTrigger asChild>
-            <motion.button whileTap={{ scale: 0.9 }} className="flex items-center ml-4">
+            <motion.button whileTap={{ scale: 0.9 }} className="flex items-center">
               <MessageCircle className="h-5 w-5 mr-1" />
               <span>{commentCount}</span>
             </motion.button>
@@ -83,29 +99,29 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
                     <Avatar className="h-8 w-8" />
                     <div>
                       <Link to={`/profile/user${index}`} className="font-semibold hover:underline">User {index}</Link>
-                      <p>This is a sample comment.</p>
+                      <p className="text-sm">This is a sample comment.</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 flex">
               <input
                 type="text"
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="w-full p-2 border rounded-md"
+                className="flex-grow p-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-red-500"
               />
-              <Button onClick={handleAddComment} className="mt-2">Post Comment</Button>
+              <Button onClick={handleAddComment} className="rounded-l-none bg-red-500 hover:bg-red-600">Post</Button>
             </div>
           </DialogContent>
         </Dialog>
-        <motion.button whileTap={{ scale: 0.9 }} onClick={handleShare} className="flex items-center ml-4">
+        <motion.button whileTap={{ scale: 0.9 }} onClick={handleShare} className="flex items-center">
           <Share2 className="h-5 w-5 mr-1" />
         </motion.button>
       </div>
-      <p className="text-xs text-gray-500 mt-2">{timestamp}</p>
+      <p className="text-xs text-gray-500 px-4 pb-4">{timestamp}</p>
     </div>
   );
 };

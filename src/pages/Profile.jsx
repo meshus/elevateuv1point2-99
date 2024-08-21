@@ -4,8 +4,10 @@ import ProfileHeader from '../components/ProfileHeader';
 import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
 import { useNavigate } from 'react-router-dom';
-import { Settings } from 'lucide-react';
+import { Settings, Grid, List } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import Post from '../components/Post';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -19,18 +21,21 @@ const Profile = () => {
     avatar: 'https://source.unsplash.com/random/200x200?face',
   });
 
-  const images = [
-    'https://source.unsplash.com/random/300x300?sig=1',
-    'https://source.unsplash.com/random/300x300?sig=2',
-    'https://source.unsplash.com/random/300x300?sig=3',
-    'https://source.unsplash.com/random/300x300?sig=4',
-    'https://source.unsplash.com/random/300x300?sig=5',
-    'https://source.unsplash.com/random/300x300?sig=6',
-  ];
+  const [posts, setPosts] = useState([]);
+  const [viewMode, setViewMode] = useState('grid');
 
   useEffect(() => {
-    // Here you would typically fetch the profile data from your backend
-    // For now, we'll just use the static data
+    // Simulating API call to fetch posts
+    const fetchedPosts = Array.from({ length: 9 }, (_, i) => ({
+      id: i + 1,
+      user: profileData,
+      content: `This is post number ${i + 1}. #elevateu`,
+      image: `https://picsum.photos/seed/${i + 1}/800/600`,
+      timestamp: '2 hours ago',
+      likes: Math.floor(Math.random() * 100),
+      comments: Math.floor(Math.random() * 20),
+    }));
+    setPosts(fetchedPosts);
   }, []);
 
   const handleEditProfile = () => {
@@ -50,7 +55,31 @@ const Profile = () => {
             <Settings className="h-5 w-5" />
           </Button>
         </ProfileHeader>
-        <ImageGrid images={images} />
+        <Tabs defaultValue="posts" className="mt-4">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="posts">Posts</TabsTrigger>
+            <TabsTrigger value="media">Media</TabsTrigger>
+          </TabsList>
+          <div className="flex justify-end mt-2">
+            <Button variant="ghost" size="sm" onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}>
+              {viewMode === 'grid' ? <List className="h-4 w-4" /> : <Grid className="h-4 w-4" />}
+            </Button>
+          </div>
+          <TabsContent value="posts">
+            {viewMode === 'grid' ? (
+              <ImageGrid images={posts.map(post => post.image)} />
+            ) : (
+              <div className="space-y-4">
+                {posts.map(post => (
+                  <Post key={post.id} {...post} />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent value="media">
+            <ImageGrid images={posts.map(post => post.image)} />
+          </TabsContent>
+        </Tabs>
       </div>
       <BottomNavigation />
     </div>
