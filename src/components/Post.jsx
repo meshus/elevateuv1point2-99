@@ -11,17 +11,12 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialLikes);
   const [commentCount, setCommentCount] = useState(initialComments);
-  const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState('');
   const { toast } = useToast();
 
   const handleLike = () => {
     setLiked(!liked);
     setLikeCount(liked ? likeCount - 1 : likeCount + 1);
-  };
-
-  const handleCommentToggle = () => {
-    setShowComments(!showComments);
   };
 
   const handleAddComment = () => {
@@ -72,7 +67,7 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
         </motion.button>
         <Dialog>
           <DialogTrigger asChild>
-            <motion.button whileTap={{ scale: 0.9 }} className="flex items-center">
+            <motion.button whileTap={{ scale: 0.9 }} className="flex items-center ml-4">
               <MessageCircle className="h-5 w-5 mr-1" />
               <span>{commentCount}</span>
             </motion.button>
@@ -82,7 +77,6 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
               <DialogTitle>Comments</DialogTitle>
             </DialogHeader>
             <div className="max-h-[60vh] overflow-y-auto">
-              {/* Here you would map through and display existing comments */}
               <div className="space-y-4">
                 {[1, 2, 3].map((_, index) => (
                   <div key={index} className="flex items-start space-x-2">
@@ -107,7 +101,7 @@ const Post = ({ user, content, image, timestamp, likes: initialLikes, comments: 
             </div>
           </DialogContent>
         </Dialog>
-        <motion.button whileTap={{ scale: 0.9 }} onClick={handleShare} className="flex items-center">
+        <motion.button whileTap={{ scale: 0.9 }} onClick={handleShare} className="flex items-center ml-4">
           <Share2 className="h-5 w-5 mr-1" />
         </motion.button>
       </div>

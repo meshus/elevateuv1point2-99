@@ -4,6 +4,8 @@ import ProfileHeader from '../components/ProfileHeader';
 import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
 import { useNavigate } from 'react-router-dom';
+import { Settings } from 'lucide-react';
+import { Button } from '../components/ui/button';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -35,11 +37,19 @@ const Profile = () => {
     navigate('/edit-profile');
   };
 
+  const handleSettings = () => {
+    navigate('/settings');
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header title="ELEVATEU" showBackButton={false} />
       <div className="p-4 pb-20 max-w-2xl mx-auto">
-        <ProfileHeader {...profileData} isOwnProfile={true} onEditProfile={handleEditProfile} />
+        <ProfileHeader {...profileData} isOwnProfile={true} onEditProfile={handleEditProfile}>
+          <Button variant="ghost" size="icon" onClick={handleSettings} className="ml-2">
+            <Settings className="h-5 w-5" />
+          </Button>
+        </ProfileHeader>
         <ImageGrid images={images} />
       </div>
       <BottomNavigation />

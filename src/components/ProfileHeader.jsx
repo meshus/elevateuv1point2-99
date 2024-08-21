@@ -1,9 +1,8 @@
 import React from 'react';
 import { Avatar } from './ui/avatar';
 import { Button } from './ui/button';
-import { Link } from 'react-router-dom';
 
-const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, avatar, onEditProfile }) => {
+const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, avatar, onEditProfile, children }) => {
   return (
     <div className="bg-white rounded-lg shadow mb-4 overflow-hidden">
       <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(${bannerImage})` }}></div>
@@ -19,9 +18,12 @@ const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile
           <span><strong>{followers}</strong> Followers</span>
         </div>
         {isOwnProfile ? (
-          <Button className="w-full" variant="outline" onClick={onEditProfile}>
-            Edit Profile
-          </Button>
+          <div className="flex items-center">
+            <Button className="flex-grow" variant="outline" onClick={onEditProfile}>
+              Edit Profile
+            </Button>
+            {children}
+          </div>
         ) : (
           <div className="flex space-x-2">
             <Button className="flex-grow bg-red-500 text-white hover:bg-red-600">
