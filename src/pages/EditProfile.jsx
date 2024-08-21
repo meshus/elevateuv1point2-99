@@ -1,3 +1,14 @@
+    // Here you would typically fetch the current profile data from your backend
+    // For now, we'll just use the static data
+    // Here you would typically fetch the current profile data from your backend
+    // For now, we'll just use the static data
+    // Here you would typically fetch the current profile data from your backend
+    // For now, we'll just use the static data
+    // Here you would typically fetch the current profile data from your backend
+    // For now, we'll just use the static data
+
+
+
 import { Camera } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -26,8 +37,6 @@ const EditProfile = () => {
   });
 
   useEffect(() => {
-    // Here you would typically fetch the current profile data from your backend
-    // For now, we'll just use the static data
   }, []);
 
   const handleChange = (e) => {
