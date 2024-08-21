@@ -15,8 +15,8 @@ const Header = ({ title, showBackButton = false }) => {
             <ArrowLeft className="h-6 w-6 text-gray-600" />
           </button>
         )}
-        <h1 className="text-2xl font-bold">{title}</h1>
       </div>
+      <h1 className="text-2xl font-bold absolute left-1/2 transform -translate-x-1/2">{title}</h1>
       {location.pathname === '/' && (
         <Link to="/notifications" className="mr-4">
           <Bell className="h-6 w-6 text-gray-600" />

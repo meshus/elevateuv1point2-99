@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
-import { Settings, Edit3, MoreVertical } from 'lucide-react';
+import { Settings, Edit3, Grid, BookOpen } from 'lucide-react';
 import Header from '../components/Header';
 import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, onEditProfile }) => {
+const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, avatar, onEditProfile }) => {
   const navigate = useNavigate();
 
   return (
     <div className="bg-white rounded-lg shadow mb-4 overflow-hidden">
-      <div className="h-32 bg-cover bg-center" style={{ backgroundImage: `url(${bannerImage})` }}></div>
+      <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(${bannerImage})` }}></div>
       <div className="p-4 relative">
-        <Avatar className="h-24 w-24 absolute -top-12 left-4 border-4 border-white" />
-        <div className="ml-28">
-          <h2 className="text-xl font-bold">{name}</h2>
+        <Avatar className="h-24 w-24 absolute -top-12 left-4 border-4 border-white" src={avatar} />
+        <div className="ml-28 mb-4">
+          <h2 className="text-2xl font-bold">{name}</h2>
           <p className="text-gray-600">@{username}</p>
         </div>
         <p className="mt-2 mb-4">{bio}</p>
@@ -24,7 +24,7 @@ const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile
           <span><strong>{following}</strong> Following</span>
           <span><strong>{followers}</strong> Followers</span>
         </div>
-        {isOwnProfile ? (
+        {isOwnProfile && (
           <div className="flex space-x-2">
             <Button className="flex-grow" variant="outline" onClick={onEditProfile}>
               <Edit3 className="h-4 w-4 mr-2" />
@@ -32,14 +32,6 @@ const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile
             </Button>
             <Button variant="outline" className="aspect-square p-2" onClick={() => navigate('/settings')}>
               <Settings className="h-5 w-5" />
-            </Button>
-          </div>
-        ) : (
-          <div className="flex space-x-2">
-            <Button className="flex-grow">Follow</Button>
-            <Button variant="outline">Message</Button>
-            <Button variant="outline" className="aspect-square p-2">
-              <MoreVertical className="h-5 w-5" />
             </Button>
           </div>
         )}
@@ -59,7 +51,10 @@ const Profile = () => {
     following: 143,
     followers: 149,
     bannerImage: 'https://source.unsplash.com/random/1200x400?landscape',
+    avatar: 'https://source.unsplash.com/random/200x200?face',
   });
+
+  const [activeTab, setActiveTab] = useState('posts');
 
   const images = [
     'https://source.unsplash.com/random/300x300?sig=1',
@@ -84,7 +79,32 @@ const Profile = () => {
       <Header title={isOwnProfile ? profileData.name : `${profileData.name}'s Profile`} showBackButton={true} />
       <div className="p-4 pb-20 max-w-2xl mx-auto">
         <ProfileHeader {...profileData} isOwnProfile={isOwnProfile} onEditProfile={handleEditProfile} />
-        <ImageGrid images={images} />
+        <div className="flex mb-4">
+          <Button
+            variant={activeTab === 'posts' ? 'default' : 'ghost'}
+            onClick={() => setActiveTab('posts')}
+            className="flex-1"
+          >
+            <Grid className="h-5 w-5 mr-2" />
+            Posts
+          </Button>
+          <Button
+            variant={activeTab === 'about' ? 'default' : 'ghost'}
+            onClick={() => setActiveTab('about')}
+            className="flex-1"
+          >
+            <BookOpen className="h-5 w-5 mr-2" />
+            About
+          </Button>
+        </div>
+        {activeTab === 'posts' && <ImageGrid images={images} />}
+        {activeTab === 'about' && (
+          <div className="bg-white rounded-lg shadow p-4">
+            <h3 className="font-bold mb-2">About {profileData.name}</h3>
+            <p>{profileData.bio}</p>
+            {/* Add more about information here */}
+          </div>
+        )}
       </div>
       <BottomNavigation />
     </div>

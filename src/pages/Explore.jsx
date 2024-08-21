@@ -30,14 +30,14 @@ const TrendingTopics = () => (
       ))}
     </div>
     <div className="mt-4">
-      <h3 className="text-md font-semibold mb-2">Trending Keywords</h3>
-      <ul className="list-disc pl-5">
-        <li>Artificial Intelligence</li>
-        <li>Sustainable Fashion</li>
-        <li>Remote Work</li>
-        <li>Plant-Based Diet</li>
-        <li>Cryptocurrency</li>
-      </ul>
+      <h3 className="text-md font-semibold mb-2">Trending</h3>
+      <div className="space-y-2">
+        {['Artificial Intelligence', 'Sustainable Fashion', 'Remote Work', 'Plant-Based Diet', 'Cryptocurrency'].map((trend, index) => (
+          <Button key={index} variant="ghost" className="w-full justify-start p-2 h-auto">
+            {trend}
+          </Button>
+        ))}
+      </div>
     </div>
   </div>
 );

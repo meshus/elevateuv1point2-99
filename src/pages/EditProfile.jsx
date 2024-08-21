@@ -47,20 +47,13 @@ const EditProfile = () => {
     navigate('/profile');
   };
 
-  const handleAvatarChange = (e) => {
+  const handleFileChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => setProfile((prev) => ({ ...prev, avatar: e.target.result }));
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleBannerChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => setProfile((prev) => ({ ...prev, bannerImage: e.target.result }));
+      reader.onload = (e) => {
+        setProfile((prev) => ({ ...prev, [type]: e.target.result }));
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -70,18 +63,18 @@ const EditProfile = () => {
       <Header title="Edit Profile" showBackButton={true} />
       <div className="p-4 max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative w-full h-32 mb-16">
-            <img src={profile.bannerImage} alt="Banner" className="w-full h-full object-cover" />
+          <div className="relative w-full h-48 mb-16">
+            <img src={profile.bannerImage} alt="Banner" className="w-full h-full object-cover rounded-lg" />
             <label htmlFor="banner-upload" className="absolute bottom-2 right-2 bg-white rounded-full p-2 cursor-pointer">
               <Camera className="h-5 w-5 text-gray-600" />
             </label>
-            <input id="banner-upload" type="file" accept="image/*" className="hidden" onChange={handleBannerChange} />
+            <input id="banner-upload" type="file" accept="image/*" className="hidden" onChange={(e) => handleFileChange(e, 'bannerImage')} />
             <div className="absolute -bottom-12 left-4">
               <Avatar src={profile.avatar} alt={profile.name} className="w-24 h-24 border-4 border-white" />
               <label htmlFor="avatar-upload" className="absolute bottom-0 right-0 bg-white rounded-full p-2 cursor-pointer">
                 <Camera className="h-5 w-5 text-gray-600" />
               </label>
-              <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+              <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={(e) => handleFileChange(e, 'avatar')} />
             </div>
           </div>
           <Input name="name" value={profile.name} onChange={handleChange} placeholder="Name" />
