@@ -77,7 +77,7 @@ const EditProfile = () => {
           <Textarea name="bio" value={profile.bio} onChange={handleChange} placeholder="Bio" />
           <Input name="email" value={profile.email} onChange={handleChange} placeholder="Email" type="email" />
           <Input name="phone" value={profile.phone} onChange={handleChange} placeholder="Phone" type="tel" />
-          <Button type="submit" className="w-full">Save Changes</Button>
+          <Button type="submit" className="w-full bg-red-500 text-white">Save Changes</Button>
         </form>
       </div>
     </div>

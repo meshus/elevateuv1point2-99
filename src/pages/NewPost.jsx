@@ -8,6 +8,7 @@ import BottomNavigation from '../components/BottomNavigation';
 import { useNavigate } from 'react-router-dom';
 
 const NewPost = () => {
+  const [postType, setPostType] = useState(null);
   const [caption, setCaption] = useState('');
   const [image, setImage] = useState(null);
   const [location, setLocation] = useState('');
@@ -37,37 +38,52 @@ const NewPost = () => {
 
   const handleSubmit = () => {
     // TODO: Implement post submission logic
-    console.log('Submitting post:', { caption, image, location, tags });
+    console.log('Submitting post:', { postType, caption, image, location, tags });
     // Navigate back to the home page after posting
     navigate('/');
   };
+
+  if (!postType) {
+    return (
+      <div className="min-h-screen bg-gray-100">
+        <Header title="New Post" showBackButton={true} />
+        <div className="p-4 pb-20 max-w-2xl mx-auto flex flex-col space-y-4">
+          <Button onClick={() => setPostType('text')} className="h-16">Text Post</Button>
+          <Button onClick={() => setPostType('image')} className="h-16">Image Post</Button>
+        </div>
+        <BottomNavigation />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Header title="New Post" showBackButton={true} />
       <div className="p-4 pb-20 max-w-2xl mx-auto">
-        <div className="mb-4">
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-            id="image-upload"
-          />
-          <label
-            htmlFor="image-upload"
-            className="flex items-center justify-center bg-white border-2 border-dashed border-gray-300 rounded-lg h-64 cursor-pointer"
-          >
-            {image ? (
-              <img src={image} alt="Uploaded" className="max-h-full max-w-full object-contain" />
-            ) : (
-              <div className="text-center">
-                <Image className="h-12 w-12 mx-auto mb-2 text-gray-400" />
-                <p className="text-gray-500">Click to upload an image</p>
-              </div>
-            )}
-          </label>
-        </div>
+        {postType === 'image' && (
+          <div className="mb-4">
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+              id="image-upload"
+            />
+            <label
+              htmlFor="image-upload"
+              className="flex items-center justify-center bg-white border-2 border-dashed border-gray-300 rounded-lg h-64 cursor-pointer"
+            >
+              {image ? (
+                <img src={image} alt="Uploaded" className="max-h-full max-w-full object-contain" />
+              ) : (
+                <div className="text-center">
+                  <Image className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+                  <p className="text-gray-500">Click to upload an image</p>
+                </div>
+              )}
+            </label>
+          </div>
+        )}
         <Textarea
           placeholder="Write a caption..."
           value={caption}
@@ -106,7 +122,7 @@ const NewPost = () => {
             ))}
           </div>
         </div>
-        <Button className="w-full" onClick={handleSubmit}>
+        <Button className="w-full bg-red-500 text-white" onClick={handleSubmit}>
           Share
         </Button>
       </div>

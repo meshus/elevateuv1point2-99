@@ -64,8 +64,7 @@ const UserProfile = () => {
               >
                 {isFollowing ? 'Unfollow' : 'Follow'}
               </Button>
-              <Button variant="outline" onClick={handleMessage}>
-                <MessageCircle className="h-5 w-5 mr-2" />
+              <Button variant="outline" onClick={handleMessage} className="flex-grow">
                 Message
               </Button>
               <DropdownMenu>

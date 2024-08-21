@@ -1,44 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar } from '../components/ui/avatar';
-import { Button } from '../components/ui/button';
-import { Settings, Edit3, Grid } from 'lucide-react';
 import Header from '../components/Header';
+import ProfileHeader from '../components/ProfileHeader';
 import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
 import { useNavigate } from 'react-router-dom';
-
-const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, avatar, onEditProfile }) => {
-  const navigate = useNavigate();
-
-  return (
-    <div className="bg-white rounded-lg shadow mb-4 overflow-hidden">
-      <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(${bannerImage})` }}></div>
-      <div className="p-4 relative">
-        <Avatar className="h-24 w-24 absolute -top-12 left-4 border-4 border-white" src={avatar} />
-        <div className="ml-28 mb-4">
-          <h2 className="text-2xl font-bold">{name}</h2>
-          <p className="text-gray-600">@{username}</p>
-        </div>
-        <p className="mt-2 mb-4">{bio}</p>
-        <div className="flex mb-4">
-          <span className="mr-4"><strong>{following}</strong> Following</span>
-          <span><strong>{followers}</strong> Followers</span>
-        </div>
-        {isOwnProfile && (
-          <div className="flex space-x-2">
-            <Button className="flex-grow" variant="outline" onClick={onEditProfile}>
-              <Edit3 className="h-4 w-4 mr-2" />
-              Edit Profile
-            </Button>
-            <Button variant="outline" className="aspect-square p-2" onClick={() => navigate('/settings')}>
-              <Settings className="h-5 w-5" />
-            </Button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -72,7 +37,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Header title={profileData.name} showBackButton={true} />
+      <Header title="ELEVATEU" showBackButton={false} />
       <div className="p-4 pb-20 max-w-2xl mx-auto">
         <ProfileHeader {...profileData} isOwnProfile={true} onEditProfile={handleEditProfile} />
         <ImageGrid images={images} />
