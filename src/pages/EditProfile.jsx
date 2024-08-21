@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Input } from '../components/ui/input';
-import { Button } from '../components/ui/button';
-import { Textarea } from '../components/ui/textarea';
-import { Avatar } from '../components/ui/avatar';
 import { Camera } from 'lucide-react';
-import Header from '../components/Header';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../components/ui/use-toast';
+import Header from '../components/Header';
+import { Avatar } from '../components/ui/avatar';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { Textarea } from '../components/ui/textarea';
+import { useToast } from '../components/ui/use-toast';
 
 const EditProfile = () => {
   const navigate = useNavigate();

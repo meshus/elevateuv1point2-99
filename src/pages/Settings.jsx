@@ -1,9 +1,8 @@
-import React from 'react';
-import Header from '../components/Header';
-import { Switch } from '../components/ui/switch';
-import { Button } from '../components/ui/button';
 import { ChevronRight } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import { Button } from '../components/ui/button';
+import { Switch } from '../components/ui/switch';
 
 const SettingsItem = ({ title, description, action }) => (
   <div className="flex justify-between items-center py-4 border-b">

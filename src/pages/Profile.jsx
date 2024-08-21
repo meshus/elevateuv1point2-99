@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Grid, List, Settings } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import BottomNavigation from '../components/BottomNavigation';
 import Header from '../components/Header';
 import ImageGrid from '../components/ImageGrid';
-import BottomNavigation from '../components/BottomNavigation';
-import { useNavigate } from 'react-router-dom';
-import { Settings, Grid, List } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import Post from '../components/Post';
 import { Avatar } from '../components/ui/avatar';
-import { motion } from 'framer-motion';
+import { Button } from '../components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 
 const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, avatar, website, onEditProfile, children }) => {
   return (
