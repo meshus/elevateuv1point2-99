@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import ProfileHeader from '../components/ProfileHeader';
 import ImageGrid from '../components/ImageGrid';
 import BottomNavigation from '../components/BottomNavigation';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +7,58 @@ import { Settings, Grid, List } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import Post from '../components/Post';
+import { Avatar } from '../components/ui/avatar';
+import { motion } from 'framer-motion';
+
+const ProfileHeader = ({ name, username, bio, following, followers, isOwnProfile, bannerImage, avatar, website, onEditProfile, children }) => {
+  return (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="h-48 bg-cover bg-center relative" style={{ backgroundImage: `url(${bannerImage})` }}>
+        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+      </div>
+      <div className="p-4 relative">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Avatar className="h-24 w-24 absolute -top-12 left-4 border-4 border-white shadow-lg" src={avatar} />
+        </motion.div>
+        <div className="ml-28 mb-4">
+          <h2 className="text-2xl font-bold">{name}</h2>
+          <p className="text-gray-600">@{username}</p>
+        </div>
+        <p className="mt-2 mb-2 text-sm">{bio}</p>
+        {website && (
+          <a href={website} target="_blank" rel="noopener noreferrer" className="block mb-4 text-blue-500 hover:underline text-sm">
+            {website}
+          </a>
+        )}
+        <div className="flex mb-4 space-x-4">
+          <span className="text-sm"><strong>{following}</strong> Following</span>
+          <span className="text-sm"><strong>{followers}</strong> Followers</span>
+        </div>
+        {isOwnProfile ? (
+          <div className="flex items-center space-x-2">
+            <Button className="flex-grow" variant="outline" onClick={onEditProfile}>
+              Edit Profile
+            </Button>
+            {children}
+          </div>
+        ) : (
+          <div className="flex space-x-2">
+            <Button className="flex-grow bg-red-500 text-white hover:bg-red-600">
+              Follow
+            </Button>
+            <Button variant="outline" className="flex-grow">
+              Message
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -19,13 +70,23 @@ const Profile = () => {
     followers: 149,
     bannerImage: 'https://source.unsplash.com/random/1200x400?landscape',
     avatar: 'https://source.unsplash.com/random/200x200?face',
+    gender: 'Not specified',
+    birthday: 'Not specified',
+    website: 'Not specified',
   });
 
   const [posts, setPosts] = useState([]);
   const [viewMode, setViewMode] = useState('grid');
 
   useEffect(() => {
-    // Simulating API call to fetch posts
+    const storedProfile = localStorage.getItem('userProfile');
+    if (storedProfile) {
+      const parsedProfile = JSON.parse(storedProfile);
+      setProfileData(prevData => ({
+        ...prevData,
+        ...parsedProfile,
+      }));
+    }
     const fetchedPosts = Array.from({ length: 9 }, (_, i) => ({
       id: i + 1,
       user: profileData,

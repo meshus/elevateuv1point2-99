@@ -37,18 +37,6 @@ const Settings = () => {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Privacy Settings</h2>
-          <SettingsItem
-            title="Make Account Private"
-            action={<Switch />}
-          />
-          <SettingsItem
-            title="Allow Friends to Find Me"
-            action={<Switch />}
-          />
-        </section>
-
-        <section className="mb-8">
           <h2 className="text-xl font-bold mb-4">Notification Preferences</h2>
           <SettingsItem
             title="Push Notifications"
